@@ -1,0 +1,37 @@
+html
+  head
+    title Películas
+    link(rel="stylesheet", href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css", integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm", crossorigin="anonymous")
+  body
+    .container
+      h1 Lista de Películas
+      p Total de registros: #{totalRecords}
+      
+      // Tabla Bootstrap
+      table.table
+        thead
+          tr
+            th ID
+            th Título
+            th Género
+            th Año de Lanzamiento
+            th Puntuación
+        tbody
+          each movie in movies
+            tr
+              td= movie.ID
+              td= movie.Title
+              td= movie.Genre
+              td= movie.ReleaseYear
+              td= movie.Rating.toFixed(2)
+      
+      // Formulario para cambiar de página
+      form(action="/", method="get")
+        .form-group
+          label(for="pageInput") Cambiar a la página:
+          input#pageInput.form-control(type="number", name="page", min=1, max=Math.ceil(totalRecords / recordsPerPage), value=currentPage)
+        button.btn.btn-primary(type="submit") Ir
+
+    script(src="https://code.jquery.com/jquery-3.5.1.slim.min.js", integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj", crossorigin="anonymous")
+    script(src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js", integrity="sha384-w3fFRRJ2OYI75YYGSp6U8aPVzSzIlnTK+Jqy6Yz2bwu4qH1u3s/1Q9dIE+Q/L4p", crossorigin="anonymous")
+    script(src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js", integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8sh+WyLlxFIMYjX7jIbbVdG9QQpgmiKtjI8ZB", crossorigin="anonymous")

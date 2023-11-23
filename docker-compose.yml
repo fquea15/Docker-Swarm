@@ -1,0 +1,47 @@
+version: '3.8'
+
+services:
+  node_app:
+    build:
+      context: ./web
+    expose:
+      - 3000
+    environment:
+      - PYTHON_API_URL=http://python_app:5000  # Agregada la variable de entorno para la URL de la API Python
+    networks:
+      - red
+    deploy:
+      replicas: 2
+      placement:
+        constraints: [node.labels.tipo == "node_app"]
+
+  python_app:
+    image: nombre_imagen_python_app
+    build:
+      context: ./api
+    expose:
+      - 5000
+    environment:
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+    networks:
+      - red
+    deploy:
+      replicas: 2
+      placement:
+        constraints: [node.labels.tipo == "python_app"]
+
+  redis:
+    image: redis:latest
+    expose:
+      - 6379
+    networks:
+      - red
+    deploy:
+      replicas: 2
+      placement:
+        constraints: [node.labels.tipo == "redis"]
+
+networks:
+  red:
+    driver: overlay
